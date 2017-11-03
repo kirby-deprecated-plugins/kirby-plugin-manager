@@ -17,7 +17,7 @@ kirby-scheduled-pages
 
 *Kirby Plugin Groups is technically not a plugin, so you can't install it. Just follow the setup below.*
 
-## Setup
+## 1. Setup
 
 1. If you don't already have a `site.php` in your main directory of your site (next to the index.php), create it.
 1. Add the code below to your `site.php` file.
@@ -43,9 +43,9 @@ If it looks too messy, you can always include the function as a file like below.
 require_once __DIR__ . DS . 'site-plugin-groups.php';
 ```
 
-## Create a group
+## 2. Create a group
 
-To keep it simple, I will use the `group-seo` example plugin group below.
+To keep it simple, I will use the `group-seo` example group below.
 
 1. Create `group-seo` folder.
 1. Create `group-seo/group-seo.php` file. The filename should match the folder name.
@@ -81,7 +81,7 @@ In the plugin group `group-seo` we group plugins by their type. In this case we 
 
 ## Troubleshooting
 
-If the you have a plugin inside a plugin group, that includes files with `roots`, it will not work.
+If the you have a plugin inside a group, that includes files with `roots`, it will not work.
 
 ```php
 include kirby()->roots()->plugins() . DS . 'plugin-name' . DS . 'subfolder';
