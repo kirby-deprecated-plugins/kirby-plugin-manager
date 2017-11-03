@@ -47,6 +47,8 @@ require_once __DIR__ . DS . 'site-plugin-groups.php';
 
 In this example we create two groups, `_group-init` and `group-seo`.
 
+**Our plugin folder**
+
 ```text
 _group-init
   kirby-init-class
