@@ -43,6 +43,16 @@ If it looks too messy, you can always include the function as a file like below.
 require_once __DIR__ . DS . 'site-plugin-groups.php';
 ```
 
+## Create a group
+
+To keep it simple, I will use the `group-seo` example plugin group below.
+
+1. Create `group-seo` folder.
+1. Create `group-seo/group-seo.php` file. The filename should match the folder name.
+1. Inside `group-seo/group-seo.php` add `<?php loadPluginGroups(__DIR__);`.
+
+The group can be called anything.
+
 ## Example
 
 In this example we create two groups, `_group-init` and `group-seo`.
@@ -68,16 +78,6 @@ In the plugin group `_group-init` we group plugins that needs to run early. Mayb
 ### Bundle plugin group
 
 In the plugin group `group-seo` we group plugins by their type. In this case we group all the seo plugins togehter.
-
-## Create a group
-
-To keep it simple, I will use the `group-seo` example plugin group above.
-
-1. Create `group-seo` folder.
-1. Create `group-seo/group-seo.php` file. The filename should match the folder name.
-1. Inside `group-seo/group-seo.php` add `<?php loadPluginGroups(__DIR__);`.
-
-The group can be called anything.
 
 ## Troubleshooting
 
