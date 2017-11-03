@@ -78,11 +78,11 @@ kirby-blueprint-reader
 kirby-scheduled-pages
 ```
 
-### Init plugin group
+### Order plugin group
 
 In the plugin group `_group-init`, we group plugins that needs to run early. Maybe the `kirby-init-class` is required by other plugins and needs to run first.
 
-### Bundle plugin group
+### Type plugin group
 
 In the plugin group `group-seo`, we group plugins by their type. In this case we group all the SEO plugins together. If you have many plugins, it can be helpful with groups to keep a organized folder structure.
 
