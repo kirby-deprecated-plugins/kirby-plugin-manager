@@ -4,14 +4,17 @@
 
 If you have  a lot of plugins, it can be useful to order them by groups.
 
-**Example**
+**Plugin folder example**
 
 ```text
-kirby-blueprint-reader
+_group-init
+  kirby-init-class
+  kirby-dependencies
 group-seo
-├─kirby-keyword-map
-├─kirby-seo
-└─kirby-sitemap-query
+  kirby-keyword-map
+  kirby-seo
+  kirby-sitemap-query
+kirby-blueprint-reader
 kirby-scheduled-pages
 ```
 
