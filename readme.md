@@ -60,7 +60,7 @@ The group doesn't need to be prefixed with `group-`. It can be called anything.
 
 In this example we have created two groups, `_group-init` and `group-seo`.
 
-**In site/plugins/**
+**Plugins folder**
 
 ```text
 _group-init
@@ -76,21 +76,21 @@ kirby-scheduled-pages
 
 ### Init plugin group
 
-In the plugin group `_group-init`, we group plugins that needs to run early. Maybe they include classes required by the other plugins.
+In the plugin group `_group-init`, we group plugins that needs to run early. Maybe the `kirby-init-class` are required by other plugins.
 
 ### Bundle plugin group
 
-In the plugin group `group-seo`, we group plugins by their type. In this case we group all the SEO plugins togehter.
+In the plugin group `group-seo`, we group plugins by their type. In this case we group all the SEO plugins together. If you have many plugins, it can be helpful with groups to keep a clean folder structure.
 
 ## Troubleshooting
 
-If the you have a plugin inside a group that includes files with `roots`, it will not work.
+If you have a plugin inside a group that include files with [roots](https://getkirby.com/docs/cheatsheet#roots), it will not work.
 
 ```php
 include kirby()->roots()->plugins() . DS . 'plugin-name' . DS . 'subfolder';
 ```
 
-If the plugin instead include the files relative to the current folder, it should work just fine.
+If you have a plugin inside a group that include files with a relative path, it should work just fine.
 
 ```php
 include __DIR__ . DS . 'plugin-name' . DS . 'subfolder';
