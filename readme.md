@@ -45,21 +45,7 @@ require_once __DIR__ . DS . 'site-plugin-groups.php';
 
 ## Usage
 
-### Normal structure
-
-A normal plugin structure looks like like below.
-
-```text
-kirby-blueprint-reader
-kirby-keyword-map
-kirby-scheduled-pages
-kirby-seo
-kirby-sitemap-query
-```
-
-### Plugin group structure
-
-With Kirby Plugin Groups, you can arrange them in plugin groups, like below.
+As an example, we group a few plugins in a group called `kirby-group-seo`.
 
 ```text
 kirby-blueprint-reader
