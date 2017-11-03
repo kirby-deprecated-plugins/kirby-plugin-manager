@@ -40,7 +40,7 @@ function loadPluginGroups($dir) {
 }
 ```
 
-If it looks too messy, you can always include the function as a file like below.
+If it looks too messy, you can include the function as a file like below.
 
 ```php
 require_once __DIR__ . DS . 'site-plugin-groups.php';
@@ -48,19 +48,19 @@ require_once __DIR__ . DS . 'site-plugin-groups.php';
 
 ## 2. Create a group
 
-To keep it simple, I will use the `group-seo` from the example below.
+To keep it simple, I will use `group-seo` from the example below.
 
 1. Create `group-seo` folder.
-1. Create `group-seo.php` inside the `group-seo` folder. The filename should match the folder name.
-1. Add `<?php loadPluginGroups(__DIR__);` inside the file.
+1. Create `group-seo.php` inside the group-seo folder. The filename should match the folder name.
+1. Add `<?php loadPluginGroups(__DIR__);` inside the group-seo.php file.
 
-The group doesn't need to be prefixed with `group-`. They can be called anything.
+The group doesn't need to be prefixed with `group-`. It can be called anything.
 
 ## Example
 
-In this example we create two groups, `_group-init` and `group-seo`.
+In this example we have created two groups, `_group-init` and `group-seo`.
 
-**Our plugin folder**
+**In site/plugins/**
 
 ```text
 _group-init
