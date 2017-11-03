@@ -15,7 +15,7 @@ kirby-group-seo
 kirby-scheduled-pages
 ```
 
-*Kirby Plugin Groups is not a normal plugin, so you can't install it. Just follow the setup below.*
+*Kirby Plugin Groups is technically not a plugin, so you can't install it. Just follow the setup below.*
 
 ## Setup
 
