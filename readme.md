@@ -7,10 +7,10 @@ If you have  a lot of plugins, it can be useful to order them by groups.
 **Plugin folder example**
 
 ```text
-_group-init
+_init
   kirby-init-class
   kirby-dependencies
-group-seo
+seo
   kirby-keyword-map
   kirby-seo
   kirby-sitemap-query
@@ -48,13 +48,11 @@ require_once __DIR__ . DS . 'site-plugin-groups.php';
 
 ## 2. Create a group
 
-To keep it simple, I will use `group-seo` from the example below.
+To keep it simple, I will use `seo` from the example below.
 
-1. Create `group-seo` folder.
-1. Create `group-seo.php` inside the group-seo folder. The filename should match the folder name.
+1. Create `seo` folder.
+1. Create `seo.php` inside the group-seo folder. The filename should match the folder name.
 1. Add `<?php loadPluginGroups(__DIR__);` inside the group-seo.php file.
-
-The group doesn't need to be prefixed with `group-`. It can be called anything.
 
 ## 3. Disable a group
 
@@ -62,15 +60,15 @@ To disable a whole group of plugins, just rename the group folder. Then it will 
 
 ## Example
 
-In this example we have created two groups, `_group-init` and `group-seo`.
+In this example we have created two groups, `_init` and `seo`.
 
 **Plugins folder**
 
 ```text
-_group-init
+_init
   kirby-init-class
   kirby-dependencies
-group-seo
+seo
   kirby-keyword-map
   kirby-seo
   kirby-sitemap-query
@@ -80,11 +78,11 @@ kirby-scheduled-pages
 
 ### Order plugin group
 
-In the plugin group `_group-init`, we group plugins that needs to run early. Maybe the `kirby-init-class` is required by other plugins and needs to run first.
+In the plugin group `_init`, we group plugins that needs to run early. Maybe the `kirby-init-class` is required by other plugins and needs to run first.
 
 ### Type plugin group
 
-In the plugin group `group-seo`, we group plugins by their type. In this case we group all the SEO plugins together. If you have many plugins, it can be helpful with groups to keep a organized folder structure.
+In the plugin group `seo`, we group plugins by their type. In this case we group all the SEO plugins together. If you have many plugins, it can be helpful with groups to keep a organized folder structure.
 
 ## Troubleshooting
 
