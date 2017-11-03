@@ -19,8 +19,6 @@ kirby-scheduled-pages
 
 ## Setup
 
-### 1. Add code to `site.php`
-
 1. If you don't already have a `site.php` in your main directory of your site (next to the index.php), create it.
 1. Add the code below to your `site.php` file.
 
@@ -75,10 +73,10 @@ kirby-scheduled-pages
 To keep it simple, I will follow the example above.
 
 1. Create `kirby-group-seo` folder.
-1. Create `kirby-group-seo/kirby-group-seo.php` file.
+1. Create `kirby-group-seo/kirby-group-seo.php` file. The filename should match the folder name.
 1. Inside `kirby-group-seo/kirby-group-seo.php` add `<?php loadPluginGroups(__DIR__);`.
 
-The group can be called anything, but try to prevent collisions with other folders names. The filename must match the folder name.
+The group can be called anything.
 
 ## Troubleshooting
 
