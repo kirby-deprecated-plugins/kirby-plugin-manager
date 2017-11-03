@@ -73,7 +73,7 @@ In this example we group a few plugins in a group called `_group-init`.
 ```text
 _group-init
 ├─kirby-init-class
-├─kirby-dependencies
+└─kirby-dependencies
 kirby-blueprint-reader
 kirby-scheduled-pages
 ```
