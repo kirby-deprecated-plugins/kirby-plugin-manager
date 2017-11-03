@@ -48,13 +48,13 @@ require_once __DIR__ . DS . 'site-plugin-groups.php';
 
 ## 2. Create a group
 
-To keep it simple, I will use the `group-seo` example group below.
+To keep it simple, I will use the `group-seo` from the example below.
 
 1. Create `group-seo` folder.
 1. Create `group-seo/group-seo.php` file. The filename should match the folder name.
 1. Inside `group-seo/group-seo.php` add `<?php loadPluginGroups(__DIR__);`.
 
-The group can be called anything.
+The group doesn't need to be prefixed with `group-`. They can be called anything.
 
 ## Example
 
@@ -76,15 +76,15 @@ kirby-scheduled-pages
 
 ### Init plugin group
 
-In the plugin group `_group-init` we group plugins that needs to run early. Maybe they include classes required by the other plugins.
+In the plugin group `_group-init`, we group plugins that needs to run early. Maybe they include classes required by the other plugins.
 
 ### Bundle plugin group
 
-In the plugin group `group-seo` we group plugins by their type. In this case we group all the seo plugins togehter.
+In the plugin group `group-seo`, we group plugins by their type. In this case we group all the SEO plugins togehter.
 
 ## Troubleshooting
 
-If the you have a plugin inside a group, that includes files with `roots`, it will not work.
+If the you have a plugin inside a group that includes files with `roots`, it will not work.
 
 ```php
 include kirby()->roots()->plugins() . DS . 'plugin-name' . DS . 'subfolder';
