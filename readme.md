@@ -8,7 +8,7 @@ If you have  a lot of plugins, it can be useful to order them by groups.
 
 ```text
 kirby-blueprint-reader
-kirby-group-seo
+group-seo
 ├─kirby-keyword-map
 ├─kirby-seo
 └─kirby-sitemap-query
@@ -45,14 +45,14 @@ require_once __DIR__ . DS . 'site-plugin-groups.php';
 
 ## Usage
 
-As an example, we group a few plugins in a group called `kirby-group-seo`.
+In this example we group a few plugins in a group called `group-seo`.
 
 ```text
-kirby-blueprint-reader
-kirby-group-seo
+group-seo
 ├─kirby-keyword-map
 ├─kirby-seo
 └─kirby-sitemap-query
+kirby-blueprint-reader
 kirby-scheduled-pages
 ```
 
@@ -60,11 +60,27 @@ kirby-scheduled-pages
 
 To keep it simple, I will follow the example above.
 
-1. Create `kirby-group-seo` folder.
-1. Create `kirby-group-seo/kirby-group-seo.php` file. The filename should match the folder name.
-1. Inside `kirby-group-seo/kirby-group-seo.php` add `<?php loadPluginGroups(__DIR__);`.
+1. Create `group-seo` folder.
+1. Create `group-seo/group-seo.php` file. The filename should match the folder name.
+1. Inside `group-seo/group-seo.php` add `<?php loadPluginGroups(__DIR__);`.
 
 The group can be called anything.
+
+### Run plugins early
+
+In this example we group a few plugins in a group called `_group-init`.
+
+```text
+_group-init
+├─kirby-init-class
+├─kirby-dependencies
+kirby-blueprint-reader
+kirby-scheduled-pages
+```
+
+I can be sure that the plugins inside the `_group-init` will run first, because it starts with `_`.
+
+*See the instructions for "Create a group" to create a group*
 
 ## Troubleshooting
 
