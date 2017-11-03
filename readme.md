@@ -76,21 +76,21 @@ kirby-scheduled-pages
 
 ### Init plugin group
 
-In the plugin group `_group-init`, we group plugins that needs to run early. Maybe the `kirby-init-class` are required by other plugins.
+In the plugin group `_group-init`, we group plugins that needs to run early. Maybe the `kirby-init-class` is required by other plugins and needs to run first.
 
 ### Bundle plugin group
 
-In the plugin group `group-seo`, we group plugins by their type. In this case we group all the SEO plugins together. If you have many plugins, it can be helpful with groups to keep a clean folder structure.
+In the plugin group `group-seo`, we group plugins by their type. In this case we group all the SEO plugins together. If you have many plugins, it can be helpful with groups to keep a organized folder structure.
 
 ## Troubleshooting
 
-If you have a plugin inside a group that include files with [roots](https://getkirby.com/docs/cheatsheet#roots), it will not work.
+If you have a plugin inside a group that include one or more files with [roots](https://getkirby.com/docs/cheatsheet#roots), it will not work.
 
 ```php
 include kirby()->roots()->plugins() . DS . 'plugin-name' . DS . 'subfolder';
 ```
 
-If you have a plugin inside a group that include files with a relative path, it should work just fine.
+If you have a plugin inside a group that include the files with a relative path, it should work just fine.
 
 ```php
 include __DIR__ . DS . 'plugin-name' . DS . 'subfolder';
