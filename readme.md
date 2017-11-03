@@ -56,6 +56,10 @@ To keep it simple, I will use `group-seo` from the example below.
 
 The group doesn't need to be prefixed with `group-`. It can be called anything.
 
+## 3. Disable a group
+
+To disable a whole group of plugins, just rename the group folder. Then it will no longer match the file inside and no longer run.
+
 ## Example
 
 In this example we have created two groups, `_group-init` and `group-seo`.
