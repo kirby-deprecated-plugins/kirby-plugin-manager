@@ -43,7 +43,7 @@ If it looks too messy, you can always include the function as a file like below.
 require_once __DIR__ . DS . 'site-plugin-groups.php';
 ```
 
-## Usage
+## Example
 
 In this example we create two groups, `_group-init` and `group-seo`.
 
@@ -67,9 +67,9 @@ In the plugin group `_group-init` we group plugins that needs to run early. Mayb
 
 In the plugin group `group-seo` we group plugins by their type. In this case we group all the seo plugins togehter.
 
-### Create a group
+## Create a group
 
-To keep it simple, I will use the `group-seo` plugin group above.
+To keep it simple, I will use the `group-seo` example plugin group above.
 
 1. Create `group-seo` folder.
 1. Create `group-seo/group-seo.php` file. The filename should match the folder name.
