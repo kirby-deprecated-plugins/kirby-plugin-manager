@@ -21,7 +21,7 @@ kirby-scheduled-pages
 
 ### 1. Add code to `site.php`
 
-1. If you don't already have a `site.php` in your `site` folder, create it.
+1. If you don't already have a `site.php` in your main directory of your site (next to the index.php), create it.
 1. Add the code below to your `site.php` file.
 
 ```php
@@ -37,7 +37,7 @@ function loadPluginGroups($dir) {
 }
 ```
 
-If it looks too messy, include the function as a file like below.
+If it looks too messy, you can always include the function as a file like below.
 
 ```php
 require_once __DIR__ . DS . 'site-plugin-groups.php';
@@ -47,7 +47,7 @@ require_once __DIR__ . DS . 'site-plugin-groups.php';
 
 ### Normal structure
 
-Normally user plugin structure looks like like below.
+A normal plugin structure looks like like below.
 
 ```text
 kirby-blueprint-reader
@@ -59,7 +59,7 @@ kirby-sitemap-query
 
 ### Plugin group structure
 
-With Kirby Plugin Groups, you can arrange them like below.
+With Kirby Plugin Groups, you can arrange them in plugin groups, like below.
 
 ```text
 kirby-blueprint-reader
@@ -72,11 +72,11 @@ kirby-scheduled-pages
 
 ### Create a group
 
-To keep it simple, we follow the example above.
+To keep it simple, I will follow the example above.
 
-1. Create `kirby-group-seo`.
-1. Create `kirby-group-seo/kirby-group-seo.php`.
-1. Inside `kirby-group-seo/kirby-group-seo.php` add `<?php loadPluginGroups(__DIR__);`
+1. Create `kirby-group-seo` folder.
+1. Create `kirby-group-seo/kirby-group-seo.php` file.
+1. Inside `kirby-group-seo/kirby-group-seo.php` add `<?php loadPluginGroups(__DIR__);`.
 
 The group can be called anything, but try to prevent collisions with other folders names. The filename must match the folder name.
 
