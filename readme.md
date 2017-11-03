@@ -29,8 +29,10 @@ $kirby = kirby();
 function loadPluginGroups($dir) {
     foreach(glob($dir . DS . '*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir) {
         $file = $dir . DS . basename($dir) . ".php";
-        if(file_exists($file))
+        if(file_exists($file)) {
+            $kirby = kirby();
             require_once $file;
+        }
     }
 }
 ```
@@ -86,7 +88,7 @@ If the you have a plugin inside a plugin group, that includes files with `roots`
 include kirby()->roots()->plugins() . DS . 'plugin-name' . DS . 'subfolder';
 ```
 
-If the plugin instead include the files relative to the current folder, it will work just fine.
+If the plugin instead include the files relative to the current folder, it should work just fine.
 
 ```php
 include __DIR__ . DS . 'plugin-name' . DS . 'subfolder';
