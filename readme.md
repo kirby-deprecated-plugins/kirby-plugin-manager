@@ -51,8 +51,8 @@ require_once __DIR__ . DS . 'site-plugin-groups.php';
 To keep it simple, I will use the `group-seo` from the example below.
 
 1. Create `group-seo` folder.
-1. Create `group-seo/group-seo.php` file. The filename should match the folder name.
-1. Inside `group-seo/group-seo.php` add `<?php loadPluginGroups(__DIR__);`.
+1. Create `group-seo.php` inside the `group-seo` folder. The filename should match the folder name.
+1. Add `<?php loadPluginGroups(__DIR__);` inside the file.
 
 The group doesn't need to be prefixed with `group-`. They can be called anything.
 
