@@ -17,7 +17,7 @@ seo--group
   kirby-sitemap-query
 ```
 
-[Installation instructions](docs/install.md)
+**[Installation instructions](docs/install.md)** - Make sure the folder name of the plugin is `__plugin-manager`.
 
 ## Create a group
 
