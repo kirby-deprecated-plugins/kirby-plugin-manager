@@ -1,90 +1,90 @@
-# Kirby Plugin Groups
+# Kirby Plugin Manager
 
-*Version 0.1*
+![Version 0.2](https://img.shields.io/badge/version-0.2-blue.svg) ![MIT license](https://img.shields.io/badge/license-MIT-green.svg) [![Donate](https://img.shields.io/badge/give-donation-yellow.svg)](https://www.paypal.me/DevoneraAB)
 
-If you have  a lot of plugins, it can be useful to order them by groups.
+Include, exclude, sort and use groups for your plugins.
 
 **Plugin folder example**
 
 ```text
-_init
-  kirby-init-class
+__plugin-manager
+kirby-blueprint-reader
+load-first--group
   kirby-dependencies
-seo
-  kirby-keyword-map
+  kirby-init-class
+seo--group
   kirby-seo
   kirby-sitemap-query
-kirby-blueprint-reader
-kirby-scheduled-pages
 ```
 
-*Kirby Plugin Groups is technically not a plugin, so you can't install it. Just follow the setup below.*
+## Create a group
 
-## 1. Setup
+To keep it simple, I will use `seo--group` from the example above.
 
-1. If you don't already have a `site.php` in your main directory of your site (next to the index.php), create it.
-1. Add the code below to your `site.php` file.
+1. Create `seo--group` folder. By default `--group` suffix makes it a group.
+1. Move some plugins into `seo--group`.
+
+## Include plugins
+
+**You can...**
+
+- Include single plugins, or single plugins from a group.
+- Include a whole group. All the plugins in that group will be included.
+- Sort the plugins by the array value order.
+
+The array param `$plugins` contains the default plugins. It will not contain `__plugin-manager` because that's required.
 
 ```php
-<?php
-$kirby = kirby();
-
-function loadPluginGroups($dir) {
-    foreach(glob($dir . DS . '*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir) {
-        $file = $dir . DS . basename($dir) . ".php";
-        if(file_exists($file)) {
-            $kirby = kirby();
-            require_once $file;
-        }
-    }
-}
+c::set('plugin.manager.include', function($plugins) {
+    return [
+        'load-first--group/kirby-init-class', // Include a plugin in a group
+        'seo--group',                         // Include a whole group
+        'kirby-blueprint-reader',             // Include a plugin
+    ];
+});
 ```
 
-If it looks too messy, you can include the function as a file like below.
+### Group prefix
+
+For the manager to be aware of that a folder is a group, the suffix `--group` is added at the end of the folder name.
+
+Be aware that if you change it to an empty string, all folders that does not have a matching file will be seens as a group. It means that it thinks that all subfolders will be treated as plugins.
 
 ```php
-require_once __DIR__ . DS . 'site-plugin-groups.php';
+c::set('plugin.manager.suffix', '--group');
 ```
 
-## 2. Create a group
+## Exclude plugins
 
-To keep it simple, I will use `seo` from the example below.
+**You can...**
 
-1. Create `seo` folder.
-1. Create `seo.php` inside the group-seo folder. The filename should match the folder name.
-1. Add `<?php loadPluginGroups(__DIR__);` inside the group-seo.php file.
+- Exclude single plugins, or single plugins from a group.
+- Exclude a whole group. All the plugins in that group will be excluded.
 
-## 3. Disable a group
+The array param `$plugins` contains the included plugins. If you use both include and exclude, include will run first.
 
-To disable a whole group of plugins, just rename the group folder. Then it will no longer match the file inside and no longer run.
-
-## Example
-
-In this example we have created two groups, `_init` and `seo`.
-
-**Plugins folder**
-
-```text
-_init
-  kirby-init-class
-  kirby-dependencies
-seo
-  kirby-keyword-map
-  kirby-seo
-  kirby-sitemap-query
-kirby-blueprint-reader
-kirby-scheduled-pages
+```php
+c::set('plugin.manager.exclude', function($plugins) {
+    print_r($plugins);
+    return [
+        'load-first--group',      // Exclude a whole group
+        'kirby-blueprint-reader', // Exclude a plugin
+    ];
+});
 ```
 
-### Order plugin group
+We have excluded all, except the `seo--group` so, the result will be:
 
-In the plugin group `_init`, we group plugins that needs to run early. Maybe the `kirby-init-class` is required by other plugins and needs to run first.
-
-### Type plugin group
-
-In the plugin group `seo`, we group plugins by their type. In this case we group all the SEO plugins together. If you have many plugins, it can be helpful with groups to keep a organized folder structure.
+```php
+$result = [
+    'seo--group/kirby-seo',
+    'seo--group/kirby-sitemap-query',
+];
+```
 
 ## Troubleshooting
+
+### Includes
 
 If you have a plugin inside a group that include one or more files with [roots](https://getkirby.com/docs/cheatsheet#roots), it will not work.
 
@@ -98,7 +98,21 @@ If you have a plugin inside a group that include the files with a relative path,
 include __DIR__ . DS . 'plugin-name' . DS . 'subfolder';
 ```
 
+### Dependencies
+
+In very rare cases, a plugin can be dependent on another plugin. If you are using include and groups, make sure that the plugins are loaded in the correct order.
+
 ## Changelog
+
+**0.2**
+
+- Added `package.json`.
+- Include config added with `plugin.manager.include`.
+- Exclude config added with `plugin.manager.exclude`.
+- Group suffix config added with `plugin.manager.suffix`.
+- Changed name from "Kirby Plugin Groups" to "Kirby Plugin Manager".
+- Made as a real plugin.
+- Complete rewrite.
 
 **0.1**
 
