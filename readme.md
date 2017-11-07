@@ -30,7 +30,7 @@ To keep it simple, I will use `seo--group` from the example above.
 
 For the manager to be aware of that a folder is a group, the suffix `--group` is added at the end of the folder name.
 
-Be aware that if you change it to an empty string, all folders that does not have a matching file will be seens as a group. It means that it thinks that all subfolders will be treated as plugins.
+Be aware that if you change it to an empty string, all folders that does not have a matching file will be seen as a group. It means that all subfolders will be treated as plugins.
 
 ```php
 c::set('plugin.manager.suffix', '--group');
