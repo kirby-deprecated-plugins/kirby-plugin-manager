@@ -17,6 +17,8 @@ seo--group
   kirby-sitemap-query
 ```
 
+[Installation instructions](docs/install.md)
+
 ## Create a group
 
 To keep it simple, I will use `seo--group` from the example above.
@@ -123,7 +125,7 @@ In very rare cases, a plugin can be dependent on another plugin. If you are usin
 
 ## Disclaimer
 
-This plugin is provided "as is" with no guarantee. Use it at your own risk and always test it yourself before using it in a production environment. If you find any issues, please [create a new issue](https://github.com/jenstornell/kirby-plugin-groups/issues/new).
+This plugin is provided "as is" with no guarantee. Use it at your own risk and always test it yourself before using it in a production environment. If you find any issues, please [create a new issue](https://github.com/jenstornell/kirby-plugin-manager/issues/new).
 
 ## License
 
