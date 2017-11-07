@@ -65,7 +65,6 @@ The array param `$plugins` contains the included plugins. If you use both includ
 
 ```php
 c::set('plugin.manager.exclude', function($plugins) {
-    print_r($plugins);
     return [
         'load-first--group',      // Exclude a whole group
         'kirby-blueprint-reader', // Exclude a plugin
