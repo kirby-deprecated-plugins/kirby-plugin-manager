@@ -26,6 +26,16 @@ To keep it simple, I will use `seo--group` from the example above.
 1. Create `seo--group` folder. By default `--group` suffix makes it a group.
 1. Move some plugins into `seo--group`.
 
+### Group prefix
+
+For the manager to be aware of that a folder is a group, the suffix `--group` is added at the end of the folder name.
+
+Be aware that if you change it to an empty string, all folders that does not have a matching file will be seens as a group. It means that it thinks that all subfolders will be treated as plugins.
+
+```php
+c::set('plugin.manager.suffix', '--group');
+```
+
 ## Include plugins
 
 **You can...**
@@ -44,16 +54,6 @@ c::set('plugin.manager.include', function($plugins) {
         'kirby-blueprint-reader',             // Include a plugin
     ];
 });
-```
-
-### Group prefix
-
-For the manager to be aware of that a folder is a group, the suffix `--group` is added at the end of the folder name.
-
-Be aware that if you change it to an empty string, all folders that does not have a matching file will be seens as a group. It means that it thinks that all subfolders will be treated as plugins.
-
-```php
-c::set('plugin.manager.suffix', '--group');
 ```
 
 ## Exclude plugins
