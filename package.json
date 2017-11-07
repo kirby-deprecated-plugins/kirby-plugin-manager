@@ -1,5 +1,5 @@
 {
-  "name": "kirby-plugin-manager",
+  "name": "__plugin-manager",
   "description": "Include, exclude, sort and use groups for your plugins.",
   "author": "Jens Törnell <jens.tornell@gmail.com>",
   "version": "0.2",
