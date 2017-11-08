@@ -1,6 +1,6 @@
 # Kirby Plugin Manager
 
-![Version 0.2](https://img.shields.io/badge/version-0.2-blue.svg) ![MIT license](https://img.shields.io/badge/license-MIT-green.svg) [![Donate](https://img.shields.io/badge/give-donation-yellow.svg)](https://www.paypal.me/DevoneraAB)
+![Version 0.3](https://img.shields.io/badge/version-0.3-blue.svg) ![MIT license](https://img.shields.io/badge/license-MIT-green.svg) [![Donate](https://img.shields.io/badge/give-donation-yellow.svg)](https://www.paypal.me/DevoneraAB)
 
 Include, exclude, sort and use groups for your plugins.
 
@@ -36,51 +36,44 @@ Be aware that if you change it to an empty string, all folders that does not hav
 c::set('plugin.manager.suffix', '--group');
 ```
 
-## Include plugins
+## Filter and sort plugins
 
-**You can...**
+### Include and sort
 
-- Include single plugins, or single plugins from a group.
-- Include a whole group. All the plugins in that group will be included.
-- Sort the plugins by the array value order.
+The array param `$plugins` contains the default plugins. The plugins will be sorted in the order you place them.
 
-The array param `$plugins` contains the default plugins. It will not contain `__plugin-manager` because that's required.
+You can return the plugins as key/value pairs or like here, just as values. `$plugins` has a key that is the name and a value that is the path to the plugin file.
 
 ```php
-c::set('plugin.manager.include', function($plugins) {
+c::set('plugin.manager', function($plugins) {
     return [
-        'load-first--group/kirby-init-class', // Include a plugin in a group
-        'seo--group',                         // Include a whole group
-        'kirby-blueprint-reader',             // Include a plugin
+        'load-first--group/kirby-init-class',
+        'seo--group',
+        'kirby-blueprint-reader',
     ];
 });
 ```
 
-## Exclude plugins
+### Exclude plugin(s)
 
-**You can...**
-
-- Exclude single plugins, or single plugins from a group.
-- Exclude a whole group. All the plugins in that group will be excluded.
-
-The array param `$plugins` contains the included plugins. If you use both include and exclude, include will run first.
+[PHP unset](http://php.net/manual/en/function.unset.php) supports multiple variables as well.
 
 ```php
-c::set('plugin.manager.exclude', function($plugins) {
-    return [
-        'load-first--group',      // Exclude a whole group
-        'kirby-blueprint-reader', // Exclude a plugin
-    ];
+c::set('plugin.manager', function($plugins) {
+    unset($plugins['seo--group/kirby-seo']);
+    return $plugins;
 });
 ```
 
-We have excluded all, except the `seo--group` so, the result will be:
+### Exclude group(s)
+
+To exclude a group, we need to use `$group`. We can exclude a single plugin with a `string`, or multiple groups with an `array`.
 
 ```php
-$result = [
-    'seo--group/kirby-seo',
-    'seo--group/kirby-sitemap-query',
-];
+c::set('plugin.manager', function($plugins, $group) {
+    $plugins = $group->unset('seo--group', $plugins);
+    return $plugins;
+});
 ```
 
 ## Troubleshooting
@@ -104,6 +97,13 @@ include __DIR__ . DS . 'plugin-name' . DS . 'subfolder';
 In very rare cases, a plugin can be dependent on another plugin. If you are using include and groups, make sure that the plugins are loaded in the correct order.
 
 ## Changelog
+
+**0.3**
+
+- Removed option `plugin.manager.include`.
+- Removed option `plugin.manager.exclude`.
+- Added option `plugin.manager` that replaces include and exclude.
+- The plugin is now faster.
 
 **0.2**
 

@@ -5,140 +5,156 @@ use str;
 use c;
 
 $plugin_manager = new PluginManager();
-$plugin_manager->plugins();
+$plugin_manager->run();
 
 class PluginManager {
     function __construct() {
         $this->root = kirby()->roots()->plugins();
+        $this->defaults = $this->defaults();
+        $this->callback = c::get('plugin.manager');
     }
 
-    // Plugins
-    function plugins() {
-        $include = $this->includePlugins($this->appendItems($this->defaultPlugins()));
-        $exclude = $this->excludePlugins($include);
-
-        $this->runPlugins($this->appendItems($exclude));
-    }
-
-    // Include plugins
-    function includePlugins($all) {
-        $include = $this->callback(c::get('plugin.manager.include'), $this->resolveArray($all));
-        return $this->resolveArray($this->appendItems($include));
-    }
-
-    // Exclude plugins
-    function excludePlugins($all) {
-        $exclude = $this->callback(c::get('plugin.manager.exclude'), $all);
-
-        foreach($all as $key => $name) {
-            $root_name = str::split($name, '/');
-            $is_group = $this->isGroup($root_name[0]);
-            $in_group = in_array($root_name[0], $exclude);
-            $in_exclude = in_array($all[$key], $exclude);
-
-            if(($is_group && $in_group) || $in_exclude) {
-                unset($all[$key]);
-            }
+    // Run
+    function run() {
+        $plugins = $this->callback();
+        if(empty($plugins)) {
+            $plugins = $this->defaults();
         }
-        return $all;
-    }
-
-    // Callback to array
-    function callback($data, $fallback) {
-        if(is_callable($data)) {
-			$callback = call($data, ['plugins' => $fallback]);
-		}
-		if(isset($callback) && is_array($callback)) {
-            return $callback;
-        } else {
-            return $fallback;
+        if($this->is_associative($plugins)) {
+            $plugins = $this->resolveArray($plugins);
         }
+        $plugins = $this->all($plugins);
+        $this->runPlugins($plugins);
     }
 
-    // Exclude fallback
+    // Resolve array
     function resolveArray($array = []) {
+        $names = [];
         foreach($array as $name => $path) {
             $names[] = $name;
         }
         return $names;
     }
 
-    // Include fallback
-    function defaultPlugins() {
-        $paths = array_diff(scandir($this->root), array('.', '..'));
-        return array_values($paths);
+    // Is associative
+    function is_associative($array) {
+        return array_keys($array) !== range(0, count($array) - 1);
+    }
+
+    // Unset groups
+    function unset($plugin, $plugins) {
+        $output = $plugins;
+        if(is_string($plugin)) {
+            $output = $this->unsetSingle($plugin, $plugins);
+        } elseif(is_array($plugin)) {
+            foreach($plugin as $item) {
+                $output = $this->unsetSingle($item, $output);
+            }
+        }
+        return $output;
+    }
+
+    // Unset single group
+    function unsetSingle($plugin, $plugins) {
+        foreach($plugins as $name => $path) {
+            if(str::contains($name, $plugin . '/')) {
+                unset($plugins[$name]);
+            }
+        }
+        return $plugins;
+    }
+
+    // Callback
+    function callback() {
+        $plugins = [];
+        if(is_callable($this->callback)) {
+            $plugins = call($this->callback, ['plugins' => $this->all($this->defaults), 'group' => $this]);
+        } elseif(is_array($this->callback)) {
+            $plugins = $this->callback;
+        } elseif(is_string($this->callback)) {
+            $plugins[] = $this->callback;
+        }
+        return $plugins;
     }
 
     // Run plugins
-    function runPlugins($all) {
-        $kirby = kirby();
-        foreach($all as $name => $filedir) {
-            $kirby->plugins[$name] = $filedir;
-            $filedir = str_replace('/', DS, $filedir);
-            if(is_dir($filedir)) {
-                $filedir .= DS . f::name($name) . '.php';
-            }            
-            include_once $filedir;
-        }
-    }
-
-    // Relative path
-    function relativePath($path) {
-        return str_replace($this->root . DS, '', $path);
-    }
-
-    // Path to name
-    function name($path) {
-        return str_replace(DS, '/', $this->relativePath($path));
-    }
-
-    // Append items
-    function appendItems($items) {
-        $all = [];
-        foreach($items as $filedir) {
-            $path = $this->root . DS . $filedir;
-
-            if(is_dir($path)) {
-                if(file_exists($path . DS . f::name($path) . '.php')) {
-                    $all[$this->name($path)] = $path;
-                } else {
-                    $plugins = $this->appendPluginGroup($path) ?? [];
-                    foreach($plugins as $plugin) {
-                        $all[$this->name($plugin)] = $plugin;
-                    }
-                }
-            } else if(f::extension($path) == 'php') {
-                $all[$this->name($path)] = $path;
+    function runPlugins($plugins) {
+        foreach($plugins as $name => $path) {
+            if(f::exists($path)) {
+                include_once $path;
             }
         }
-        unset($all['__plugin-manager']);
+    }
+
+    // All plugins from an array
+    function all($data) {
+        $all = [];
+        foreach($data as $name) {
+            $dir = $this->root . DS . $name;
+            $file = $this->root . DS . $name . '.php';
+
+            if(is_dir($dir)) {
+                $filepath = $dir . DS . f::name($name) . '.php';
+                if(f::exists($filepath)) {
+                    $all[$name] = $filepath;
+                } else {
+                    if($this->isGroup($name)) {
+                        $plugins = $this->getGroups($name) ?? [];
+                        foreach($plugins as $plugin) {
+                            $group_path = $plugin . DS . f::name($plugin) . '.php';
+                            if(f::exists($group_path)) {
+                                $all[$name . '/' . f::name($plugin)] = $group_path;
+                            }
+                        }
+                    }
+                }
+            } elseif(f::exists($file)) {
+                $all[$name] = $file;
+            }
+        }
         return $all;
     }
 
-    // Append plugin group
-    function appendPluginGroup($path) {
-        $group = $this->relativePath($path);
-        $paths = [];
-        if($this->isGroup($group)) {
-            $paths = $this->appendPluginGroupItems($path);
+    // Get groups
+    function getGroups($name) {
+        $dir = $this->root . DS . $name;
+        $glob = glob($dir . DS . '*', GLOB_ONLYDIR|GLOB_NOSORT);
+        $plugins = [];
+        foreach($glob as $dir) {
+            if(file_exists($dir . DS . f::name($dir) . '.php')) {
+                $plugins[] = $dir;
+            }
         }
-        return $paths;
+        return $plugins;
+    }
+
+    // Disable core plugin manager
+    function disableCore($plugins) {
+        foreach($plugins as $key => $plugin) {
+            if(f::extension($plugin) == 'php') {
+                $plugins[$key] = f::name($plugin);
+            } elseif(f::extension($plugin) !== '') {
+                unset($plugins[$key]);
+            }
+
+            if(!empty($plugins[$key])) {
+                kirby()->plugins[$plugins[$key]] = 'Disabled';
+            }
+        }
+        return $plugins;
+    }
+
+    // Defaults
+    function defaults() {
+        $plugins = array_diff(scandir($this->root), array('.', '..'));
+        $plugins = array_values($plugins);
+        unset($plugins[0]);
+        $plugins = $this->disableCore($plugins);
+        return array_values($plugins);
     }
 
     // Is group
     function isGroup($path) {
         if(str::endsWith($path, c::get('plugin.manager.suffix', '--group'))) return true;
-    }
-
-    // Append plugin groups
-    function appendPluginGroupItems($dir) {
-        $glob = glob($dir . DS . '*', GLOB_ONLYDIR|GLOB_NOSORT);
-        $plugins = [];
-        foreach($glob as $dir) {
-            if(file_exists($dir . DS . f::name($dir) . ".php")) {
-                $plugins[] = $dir;
-            }
-        }
-        return $plugins;
     }
 }
