@@ -38,7 +38,25 @@ c::set('plugin.manager.suffix', '--group');
 
 ## Filter and sort plugins
 
-### Include and sort
+### Include as string or array
+
+The most simple way to include a plugin is with a `string`. The below will include all plugins from the `seo--group`.
+
+```php
+c::set('plugin.manager', 'seo--group');
+```
+
+You can include and sort the plugins as an array.
+
+```php
+c::set('plugin.manager', [
+    'load-first--group/kirby-init-class',
+    'seo--group',
+    'kirby-blueprint-reader',
+]);
+```
+
+### Include callback
 
 The array param `$plugins` contains the default plugins. The plugins will be sorted in the order you place them.
 
@@ -61,6 +79,7 @@ c::set('plugin.manager', function($plugins) {
 ```php
 c::set('plugin.manager', function($plugins) {
     unset($plugins['seo--group/kirby-seo']);
+
     return $plugins;
 });
 ```
@@ -72,6 +91,7 @@ To exclude a group, we need to use `$group`. We can exclude a single plugin with
 ```php
 c::set('plugin.manager', function($plugins, $group) {
     $plugins = $group->unset('seo--group', $plugins);
+
     return $plugins;
 });
 ```
